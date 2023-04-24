@@ -2,13 +2,16 @@ import express from 'express';
 // import * as path from 'path';
 import { router as GoalRoutes } from './routes/goalRoutes.js';
 import { router as UserRoutes } from './routes/userRoutes.js';
+import cors from 'cors';
 
-// import (dotenv.config()) from 'dotenv' ;
+import * as dotenv from 'dotenv'
 import { connectDB } from './config/db.js';
 
 connectDB();
 
+dotenv.config();
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -22,7 +25,7 @@ app.get('/api', (req, res) => {
 app.use('/api/goals', GoalRoutes);
 app.use('/api/users', UserRoutes);
 
-const port = process.env.PORT || 3333;
+const port = process.env.API_PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });

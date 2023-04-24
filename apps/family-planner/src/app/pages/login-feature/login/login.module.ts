@@ -15,7 +15,7 @@ import { LoginComponent } from "./login.page";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   declarations: [LoginComponent],
 })

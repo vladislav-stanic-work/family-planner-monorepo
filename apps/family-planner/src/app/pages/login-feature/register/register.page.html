@@ -6,6 +6,13 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div>
             <mat-form-field appearance="fill">
+                <mat-label>Name: </mat-label>
+                <input id="name" type="name" formControlName="name" required matInput>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field appearance="fill">
                 <mat-label>Email: </mat-label>
                 <input id="email" type="email" formControlName="email" required matInput>
             </mat-form-field>
@@ -21,7 +28,7 @@
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Repeat Password: </mat-label>
-                <input id="repeatPassword" type="repeatPassword" formControlName="repeatPassword" required matInput>
+                <input id="repeatPassword" type="password" formControlName="repeatPassword" required matInput>
             </mat-form-field>
         </div>
 
@@ -34,6 +41,6 @@
     <br>
     
     <div>
-        <a mat-raised-button routerLink="/login">Go to Login</a>
+        <a mat-raised-button [routerLink]="'/' + ERoutes.LOGIN">Go to Login</a>
     </div>
 </div>

@@ -8,7 +8,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-        res.status(400);
+        res.status(400).json({ errorCode: 100, message: 'Please add all fields' })
         throw new Error('Please add all fields');
     }
 
@@ -16,7 +16,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const userExists = await User.findOne({email});
 
     if (userExists) {
-        res.status(400);
+        res.status(400).json({ errorCode: 101, message: 'User already exists' })
         throw new Error('User already exists');
     }
 
@@ -25,7 +25,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user
-    const user  = await User.create({
+    const user = await User.create({
         name,
         email,
         password: hashedPassword
@@ -33,38 +33,33 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
         res.status(201).json({
-            _id: user.id,
             name: user.name,
             email: user.email,
-            token: generateToken(user._id),
-        })
+        });
+        // _id: user.id,
+        // token: generateToken(user._id),
     } else {
-        res.status(400);
+        res.status(400).json({ errorCode: 102, message: 'Invalid user data' });
         throw new Error('Invalid user data');
     }
 });
 
 // @route POST /api/users/login
 const loginUser = asyncHandler(async (req, res) => {
-    console.log('req ============ ', req.body)
     const { email, password } = req.body;
 
-
-console.log('User ====== ', User)
     // Check for user email
     const user = await User.findOne({ email });
 
-    console.log('user =============== ', user)
-
     if (user && await bcrypt.compare(password, user.password)) {
-        res.json({
+        res.status(201).json({
             _id: user.id,
             name: user.name,
             email: user.email,
             token: generateToken(user._id),
         })
     } else {
-        res.status(400);
+        res.status(400).json({ errorCode: 103, message: 'Invalid credentials' });
         throw new Error('Invalid credentials');
     }
 });
