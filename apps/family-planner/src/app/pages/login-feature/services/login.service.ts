@@ -4,7 +4,9 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
+  EROUTES,
   Error_Codes,
   IHttpResponse,
   IUser,
@@ -22,7 +24,11 @@ import { environment } from './../../../../environments/environment';
   providedIn: 'root',
 })
 export class LoginService {
-  constructor(private http: HttpClient, private appService: AppService) {}
+  constructor(
+    private http: HttpClient,
+    private appService: AppService,
+    private router: Router
+  ) {}
 
   login({ email, password }: IUserLoginRequest): Observable<IUser> {
     const httpOptions = {
@@ -42,9 +48,9 @@ export class LoginService {
       )
       .pipe(
         map(({ data }: IHttpResponse<IUser>) => {
-          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data));
           // Redirect to Dashboard
-          this.appService.showSnackbar('SUCCESS!');
+          this.router.navigate([`${EROUTES.DASHBOARD}`]);
           return data;
         }),
         catchError(({ error }: HttpErrorResponse) => {

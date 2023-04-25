@@ -5,6 +5,7 @@ import {
   Route,
   RouterStateSnapshot,
 } from '@angular/router';
+import { EROUTES } from '@family-planner/utils';
 
 import { AuthGuard, UserToken } from './guards/auth.guard';
 
@@ -17,7 +18,7 @@ export const canActivateChild: CanActivateChildFn = (
 
 export const appRoutes: Route[] = [
   {
-    path: 'login',
+    path: EROUTES.LOGIN,
     canActivate: [canActivateChild],
     loadChildren: () =>
       import('./pages/login-feature/login/login.module').then(
@@ -25,7 +26,7 @@ export const appRoutes: Route[] = [
       ),
   },
   {
-    path: 'register',
+    path: EROUTES.REGISTER,
     canActivate: [canActivateChild],
     loadChildren: () =>
       import('./pages/login-feature/register/register.module').then(
@@ -33,8 +34,28 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: EROUTES.DASHBOARD,
+    canActivate: [canActivateChild],
+    loadChildren: () =>
+      import('./pages/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
+  },
+  {
+    path: EROUTES.USERS,
+    canActivate: [canActivateChild],
+    loadChildren: () =>
+      import('./pages/users/users.module').then((m) => m.UsersModule),
+  },
+  {
+    path: EROUTES.GROUPS,
+    canActivate: [canActivateChild],
+    loadChildren: () =>
+      import('./pages/groups/groups.module').then((m) => m.GroupsModule),
+  },
+  {
     path: '',
-    redirectTo: 'login',
+    redirectTo: EROUTES.LOGIN,
     pathMatch: 'full',
   },
   {

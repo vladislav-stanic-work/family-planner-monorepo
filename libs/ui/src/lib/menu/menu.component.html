@@ -1,0 +1,20 @@
+<mat-toolbar color="primary" class="navigation">
+  <div>
+    <a (click)="clickHandler.emit(EROUTES.DASHBOARD)">Home</a>
+  </div>
+  <ul class="navigation-items">
+    <li class="navigation-item" *ngFor="let link of links">
+      <a
+        *ngIf="link.value !== EROUTES.LOGOUT; else logout"
+        mat-raised-button
+        (click)="clickHandler.emit(link.value)"
+        >{{link.title}}</a
+      >
+      <ng-template #logout
+        ><button mat-icon-button (click)="clickHandler.emit(link.value)">
+          {{ link.title }}
+        </button></ng-template
+      >
+    </li>
+  </ul>
+</mat-toolbar>

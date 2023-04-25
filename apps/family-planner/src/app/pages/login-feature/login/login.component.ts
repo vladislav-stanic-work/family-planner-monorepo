@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ERoutes } from '@family-planner/utils';
+import { EROUTES } from '@family-planner/utils';
 
 import { EMAIL_VALIDATION } from '../../../constants';
 import { LoginService } from '../services/login.service';
 
 @Component({
-  selector: 'fpl-page-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'fpl-login-page',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  ERoutes = ERoutes;
+  EROUTES = EROUTES;
 
   loginForm = this.fb.group({
     email: [

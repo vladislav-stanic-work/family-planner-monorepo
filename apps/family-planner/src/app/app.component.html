@@ -1,3 +1,9 @@
+<fpl-menu
+  *ngIf="showMenu"
+  [links]="menuLinks"
+  (clickHandler)="onMenuClick($event)"
+></fpl-menu>
+
 <router-outlet></router-outlet>
 
 <!-- Global loader -->

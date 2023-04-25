@@ -1,0 +1,14 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+}
+
+.navigation-items {
+    display: flex;
+}
+
+.navigation-item {
+    margin-left: 30px;
+}

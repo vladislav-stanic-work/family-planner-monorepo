@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { RegisterComponent } from './register.page';
+import { RegisterComponent } from './register.component';
 import { RegisterRoutingModule } from './register-routing.module';
 
 @NgModule({

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ERoutes } from '@family-planner/utils';
+import { EROUTES } from '@family-planner/utils';
 
 import { EMAIL_VALIDATION } from '../../../constants';
 import { LoginService } from '../services/login.service';
 
 @Component({
-  selector: 'fpl-page-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  selector: 'fpl-register-page',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
   registerForm = this.fb.group({
@@ -25,7 +25,7 @@ export class RegisterComponent {
     repeatPassword: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  ERoutes = ERoutes;
+  EROUTES = EROUTES;
 
   constructor(
     private readonly fb: FormBuilder,
