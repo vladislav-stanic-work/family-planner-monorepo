@@ -5,6 +5,8 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  Error_Codes,
+  IHttpResponse,
   IUser,
   IUserLoginRequest,
   IUserRegisterRequest,
@@ -33,21 +35,22 @@ export class LoginService {
     // Should return wrapper around Data
     // status, message,
     return this.http
-      .post<IUser>(
+      .post<IHttpResponse<IUser>>(
         `${environment.API_URL}/users/login`,
         { email, password },
         httpOptions
       )
       .pipe(
-        map((response: IUser) => {
-          console.log('response === ', response);
-          localStorage.setItem('token', response.token);
+        map(({ data }: IHttpResponse<IUser>) => {
+          localStorage.setItem('token', data.token);
           // Redirect to Dashboard
           this.appService.showSnackbar('SUCCESS!');
-          return response;
+          return data;
         }),
-        catchError((error: HttpErrorResponse) => {
-          this.appService.showSnackbar(`Error: ${error.error.message}`);
+        catchError(({ error }: HttpErrorResponse) => {
+          this.appService.showSnackbar(
+            `Error: ${Error_Codes[error.errorCode]}`
+          );
           return throwError(() => error);
         }),
         finalize(() => {
@@ -69,7 +72,7 @@ export class LoginService {
     // Should return wrapper around Data
     // status, message,
     return this.http
-      .post<IUserRegisterResponse>(
+      .post<IHttpResponse<IUserRegisterResponse>>(
         `${environment.API_URL}/users`,
         { name, email, password },
         httpOptions
@@ -80,8 +83,10 @@ export class LoginService {
             'Registration successfull. You can now login.'
           )
         ),
-        catchError((error: HttpErrorResponse) => {
-          this.appService.showSnackbar(`Error: ${error.error.message}`);
+        catchError(({ error }: HttpErrorResponse) => {
+          this.appService.showSnackbar(
+            `Error: ${Error_Codes[error.error.errorCode]}`
+          );
           return throwError(() => error);
         }),
         finalize(() => {

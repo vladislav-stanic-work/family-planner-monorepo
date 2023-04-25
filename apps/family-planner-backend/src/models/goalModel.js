@@ -1,21 +1,21 @@
 import mongoose from 'mongoose';
 
 const goalSchema = mongoose.Schema(
-    {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User',
-        },
-        text: {
-            type: String,
-            required: [true, 'Please add a text value']
-        }
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
     },
-    {
-        timestamps: true,
-    }
+    text: {
+      type: String,
+      required: [true, 'Please add a text value'],
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
-const goalSchemaModel = mongoose.model('Goal', goalSchema)
+const goalSchemaModel = mongoose.model('Goal', goalSchema);
 
 export { goalSchemaModel };
