@@ -6,6 +6,27 @@ import { responseWrapper } from '../middleware/errorMiddleware';
 import User from '../models/userModel';
 import { EEROR_CODES } from './../utils/index';
 
+// @route GET /api/users
+const getUsers = asyncHandler(async (req, res) => {
+  try {
+    const result = await User.find();
+
+    responseWrapper(
+      res,
+      200,
+      null,
+      result.map((it) => ({
+        _id: it._id,
+        name: it.name,
+        email: it.email,
+      }))
+    );
+  } catch (error) {
+    responseWrapper(res, 400, EEROR_CODES.GENERAL_ERROR);
+    throw new Error('Something went wrong.');
+  }
+});
+
 // @route POST /api/users
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -85,4 +106,4 @@ const generateToken = (id) => {
   });
 };
 
-export { getMe, loginUser, registerUser };
+export { getMe, getUsers, loginUser, registerUser };

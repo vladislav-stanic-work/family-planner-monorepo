@@ -9,8 +9,8 @@ import {
   EROUTES,
   Error_Codes,
   IHttpResponse,
-  IUser,
   IUserLoginRequest,
+  IUserLoginResponse,
   IUserRegisterRequest,
   IUserRegisterResponse,
 } from '@family-planner/utils';
@@ -30,7 +30,10 @@ export class LoginService {
     private router: Router
   ) {}
 
-  login({ email, password }: IUserLoginRequest): Observable<IUser> {
+  login({
+    email,
+    password,
+  }: IUserLoginRequest): Observable<IUserLoginResponse> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -38,18 +41,15 @@ export class LoginService {
       }),
     };
 
-    // Should return wrapper around Data
-    // status, message,
     return this.http
-      .post<IHttpResponse<IUser>>(
+      .post<IHttpResponse<IUserLoginResponse>>(
         `${environment.API_URL}/users/login`,
         { email, password },
         httpOptions
       )
       .pipe(
-        map(({ data }: IHttpResponse<IUser>) => {
+        map(({ data }: IHttpResponse<IUserLoginResponse>) => {
           localStorage.setItem('user', JSON.stringify(data));
-          // Redirect to Dashboard
           this.router.navigate([`${EROUTES.DASHBOARD}`]);
           return data;
         }),
@@ -71,12 +71,9 @@ export class LoginService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        // Authorization: 'Bearer'
       }),
     };
 
-    // Should return wrapper around Data
-    // status, message,
     return this.http
       .post<IHttpResponse<IUserRegisterResponse>>(
         `${environment.API_URL}/users`,

@@ -11,8 +11,8 @@ const errorHandler = (err, req, res, next) => {
 
 const responseWrapper = (res, statusCode, errorCode, data) => {
   res.status(statusCode).json({
-    errorCode: errorCode,
-    data: data,
+    errorCode,
+    data,
     success: [200, 201].includes(statusCode),
   });
 };

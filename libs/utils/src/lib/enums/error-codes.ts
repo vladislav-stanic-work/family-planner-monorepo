@@ -3,4 +3,6 @@ export const Error_Codes: Record<number, string> = {
   1001: 'Invalid user data',
   1002: 'Invalid credentials',
   1003: 'Please add all fields',
+
+  2000: 'Somethong went wrong',
 };
