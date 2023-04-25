@@ -1,19 +1,19 @@
 interface IUserBase {
-    name: string;
-    email: string;
+  name: string;
+  email: string;
 }
 
 export interface IUser extends IUserBase {
-    token: string;
+  token: string;
 }
 
 export interface IUserLoginRequest {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export interface IUserRegisterRequest extends IUserBase {
-    password: string;
+  password: string;
 }
 
-export type IUserRegisterResponse = IUserBase
+export type IUserRegisterResponse = IUserBase;

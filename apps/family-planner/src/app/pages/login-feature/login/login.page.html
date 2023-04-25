@@ -1,29 +1,48 @@
 <div class="form-wrapper">
-    <h1>
-        Login Page 
-    </h1>
-    
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div>
-            <mat-form-field appearance="fill">
-                <mat-label for="email">Email: </mat-label>
-                <input id="email" type="email" formControlName="email" required matInput>
-            </mat-form-field>
-        </div>
+  <h1>Login Page</h1>
 
-        <div>
-            <mat-form-field appearance="fill">
-                <mat-label for="pasword">Password: </mat-label>
-                <input id="password" type="password" formControlName="password" required matInput>
-            </mat-form-field>
-        </div>
-
-        <button mat-raised-button type="submit" color="primary" [disabled]="!loginForm.valid">Login</button>
-    </form>
-
-    <br>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label for="email">Email: </mat-label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          required
+          matInput
+        />
+      </mat-form-field>
+    </div>
 
     <div>
-        <a mat-raised-button [routerLink]="'/' + ERoutes.REGISTER">Go to Register</a>
+      <mat-form-field appearance="fill">
+        <mat-label for="pasword">Password: </mat-label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          required
+          matInput
+        />
+      </mat-form-field>
     </div>
+
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      [disabled]="!loginForm.valid"
+    >
+      Login
+    </button>
+  </form>
+
+  <br />
+
+  <div>
+    <a mat-raised-button [routerLink]="'/' + ERoutes.REGISTER"
+      >Go to Register</a
+    >
+  </div>
 </div>
