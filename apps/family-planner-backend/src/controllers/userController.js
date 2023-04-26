@@ -19,6 +19,7 @@ const getUsers = asyncHandler(async (req, res) => {
         _id: it._id,
         name: it.name,
         email: it.email,
+        role: it.role,
       }))
     );
   } catch (error) {
@@ -88,9 +89,20 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @route GET /api/users/me
-const getMe = asyncHandler(async (req, res) => {
-  const { _id, name, email } = await User.findById(req.user.id);
+// // @route GET /api/users/me
+// const getMe = asyncHandler(async (req, res) => {
+//   const { _id, name, email } = await User.findById(req.user.id);
+
+//   responseWrapper(res, 200, null, {
+//     id: _id,
+//     name,
+//     email,
+//   });
+// });
+
+// @route GET /api/users/id
+const getUser = asyncHandler(async (req, res) => {
+  const { _id, name, email } = await User.findById(req.params.id);
 
   responseWrapper(res, 200, null, {
     id: _id,
@@ -106,4 +118,4 @@ const generateToken = (id) => {
   });
 };
 
-export { getMe, getUsers, loginUser, registerUser };
+export { getUser, getUsers, loginUser, registerUser };

@@ -1,0 +1,9 @@
+<fpl-layout>
+  <h1>User Page</h1>
+
+  <div *ngIf="user$ | async; let user">
+    <div>Name: {{user.name}}</div>
+    <div>Email: {{user.email}}</div>
+    <div>Description: {{user.description}}</div>
+  </div>
+</fpl-layout>

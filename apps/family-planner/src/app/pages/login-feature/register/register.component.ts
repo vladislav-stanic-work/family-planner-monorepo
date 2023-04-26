@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EROUTES } from '@family-planner/utils';
+import { tap } from 'rxjs';
 
 import { EMAIL_VALIDATION } from '../../../constants';
 import { LoginService } from '../services/login.service';
@@ -12,7 +13,7 @@ import { LoginService } from '../services/login.service';
 })
 export class RegisterComponent {
   registerForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(6)]],
+    name: ['', [Validators.required, Validators.minLength(4)]],
     email: [
       '',
       [
@@ -40,6 +41,11 @@ export class RegisterComponent {
         email: email || '',
         password: password || '',
       })
+      .pipe(
+        tap(() => {
+          this.registerForm.reset();
+        })
+      )
       .subscribe();
   }
 }

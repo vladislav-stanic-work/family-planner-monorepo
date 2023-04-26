@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from '@family-planner/utils';
+import { EROLES, EROUTES, IUser } from '@family-planner/utils';
 import { take, tap } from 'rxjs';
 
-import { UsersService } from './services/users.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'fpl-users-page',
@@ -11,7 +11,10 @@ import { UsersService } from './services/users.service';
 })
 export class UsersComponent implements OnInit {
   dataSource: IUser[] = [];
-  displayedColumns: string[] = ['num', 'name', 'email'];
+  displayedColumns: string[] = ['num', 'name', 'email', 'role'];
+
+  EROUTES = EROUTES;
+  EROLES = EROLES;
 
   constructor(private readonly usersService: UsersService) {}
 

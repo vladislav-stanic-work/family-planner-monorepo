@@ -4,7 +4,12 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Error_Codes, IHttpResponse, IUser } from '@family-planner/utils';
+import {
+  Error_Codes,
+  IHttpResponse,
+  IUser,
+  IUserDetails,
+} from '@family-planner/utils';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -31,6 +36,32 @@ export class UsersService {
       .get<IHttpResponse<IUser[]>>(`${environment.API_URL}/users`, httpOptions)
       .pipe(
         map(({ data }: IHttpResponse<IUser[]>) => data),
+        catchError(({ error }: HttpErrorResponse) => {
+          this.appService.showSnackbar(
+            `Error: ${Error_Codes[error.errorCode]}`
+          );
+          return throwError(() => error);
+        })
+      );
+  }
+
+  getUser(id: string): Observable<IUserDetails> {
+    const token = localStorage.getItem('user') || '';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(token)?.token}`,
+      }),
+    };
+
+    return this.http
+      .get<IHttpResponse<IUserDetails>>(
+        `${environment.API_URL}/users/${id}`,
+        httpOptions
+      )
+      .pipe(
+        map(({ data }: IHttpResponse<IUserDetails>) => data),
         catchError(({ error }: HttpErrorResponse) => {
           this.appService.showSnackbar(
             `Error: ${Error_Codes[error.errorCode]}`
