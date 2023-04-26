@@ -9,6 +9,7 @@ import {
   IHttpResponse,
   IUser,
   IUserDetails,
+  IUserUpdate,
 } from '@family-planner/utils';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -62,6 +63,50 @@ export class UsersService {
       )
       .pipe(
         map(({ data }: IHttpResponse<IUserDetails>) => data),
+        catchError(({ error }: HttpErrorResponse) => {
+          this.appService.showSnackbar(
+            `Error: ${Error_Codes[error.errorCode]}`
+          );
+          return throwError(() => error);
+        })
+      );
+  }
+
+  updateUser(
+    id: string,
+    { name, description }: IUserUpdate
+  ): Observable<IUserDetails> {
+    const token = localStorage.getItem('user') || '';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(token)?.token}`,
+      }),
+    };
+
+    return this.http
+      .patch<IHttpResponse<IUserDetails>>(
+        `${environment.API_URL}/users/${id}`,
+        { name, description },
+        httpOptions
+      )
+      .pipe(
+        map(({ data }: IHttpResponse<IUserDetails>) => {
+          this.appService.showSnackbar('Update successful!');
+
+          const thisUser: IUserDetails = JSON.parse(
+            localStorage.getItem('user') || ''
+          );
+
+          const newUser = {
+            ...thisUser,
+            ...data,
+          };
+
+          localStorage.setItem('user', JSON.stringify(newUser));
+          return data;
+        }),
         catchError(({ error }: HttpErrorResponse) => {
           this.appService.showSnackbar(
             `Error: ${Error_Codes[error.errorCode]}`

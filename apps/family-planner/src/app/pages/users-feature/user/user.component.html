@@ -4,6 +4,27 @@
   <div *ngIf="user$ | async; let user">
     <div>Name: {{user.name}}</div>
     <div>Email: {{user.email}}</div>
-    <div>Description: {{user.description}}</div>
+    <div *ngIf="user.description">Description: {{user.description}}</div>
+
+    <br />
+
+    <button
+      *ngIf="editEnabled"
+      (click)="onToggleEditForm()"
+      mat-raised-button
+      color="primary"
+    >
+      Edit Details
+    </button>
+
+    <br />
+    <br />
+
+    <fpl-user-edit
+      *ngIf="showEditUserForm"
+      [name]="user.name"
+      [description]="user.description"
+      (updateUser)="onUpdateUser($event)"
+    ></fpl-user-edit>
   </div>
 </fpl-layout>

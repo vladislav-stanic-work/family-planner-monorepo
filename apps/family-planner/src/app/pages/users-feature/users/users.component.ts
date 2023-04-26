@@ -12,6 +12,7 @@ import { UsersService } from '../services/users.service';
 export class UsersComponent implements OnInit {
   dataSource: IUser[] = [];
   displayedColumns: string[] = ['num', 'name', 'email', 'role'];
+  thisId = '';
 
   EROUTES = EROUTES;
   EROLES = EROLES;
@@ -24,7 +25,11 @@ export class UsersComponent implements OnInit {
       .pipe(
         // Add until
         take(1),
-        tap((res: IUser[]) => (this.dataSource = res))
+        tap((res: IUser[]) => {
+          this.dataSource = res;
+
+          this.thisId = JSON.parse(localStorage.getItem('user') || '')?._id;
+        })
       )
       .subscribe();
   }

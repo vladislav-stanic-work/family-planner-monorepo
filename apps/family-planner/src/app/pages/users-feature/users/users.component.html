@@ -39,7 +39,11 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr
+      mat-row
+      [class.colored]="row._id === thisId"
+      *matRowDef="let row; columns: displayedColumns;"
+    ></tr>
   </table>
 
   <ng-template #noData><div>Data is loading...</div></ng-template>

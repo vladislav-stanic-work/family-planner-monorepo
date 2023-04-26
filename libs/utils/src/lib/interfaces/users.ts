@@ -11,3 +11,8 @@ export interface IUser extends IUserBase {
 export interface IUserDetails extends IUser {
   description: string;
 }
+
+export interface IUserUpdate {
+  name?: string;
+  description?: string;
+}

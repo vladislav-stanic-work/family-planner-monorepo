@@ -102,12 +102,32 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // @route GET /api/users/id
 const getUser = asyncHandler(async (req, res) => {
-  const { _id, name, email } = await User.findById(req.params.id);
+  const { _id, name, email, description } = await User.findById(req.params.id);
 
   responseWrapper(res, 200, null, {
     id: _id,
     name,
     email,
+    description,
+  });
+});
+
+// @route POST /api/users
+const updateUser = asyncHandler(async (req, res) => {
+  // Update user
+  const { _id, name, email, description } = await User.findByIdAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    req.body,
+    { new: true }
+  );
+
+  responseWrapper(res, 200, null, {
+    _id,
+    name,
+    email,
+    description,
   });
 });
 
@@ -118,4 +138,4 @@ const generateToken = (id) => {
   });
 };
 
-export { getUser, getUsers, loginUser, registerUser };
+export { getUser, getUsers, loginUser, registerUser, updateUser };

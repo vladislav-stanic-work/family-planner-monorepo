@@ -6,12 +6,11 @@
     <li class="navigation-item" *ngFor="let link of links">
       <a
         *ngIf="link.value !== EROUTES.LOGOUT; else logout"
-        mat-raised-button
         (click)="clickHandler.emit(link.value)"
         >{{link.title}}</a
       >
       <ng-template #logout
-        ><button mat-icon-button (click)="clickHandler.emit(link.value)">
+        ><button mat-raised-button (click)="clickHandler.emit(link.value)">
           {{ link.title }}
         </button></ng-template
       >
