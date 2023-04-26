@@ -2,9 +2,17 @@
   <h1>User Page</h1>
 
   <div *ngIf="user$ | async; let user">
-    <div>Name: {{user.name}}</div>
-    <div>Email: {{user.email}}</div>
-    <div *ngIf="user.description">Description: {{user.description}}</div>
+    <div class="user-details">
+      <div>Name:</div>
+      <div>{{user.name}}</div>
+    </div>
+    <div class="user-details">
+      <div>Email:</div>
+      <div>{{user.email}}</div>
+    </div>
+    <div class="user-details" *ngIf="user.description">
+      Description: {{user.description}}
+    </div>
 
     <br />
 

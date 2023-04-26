@@ -72,10 +72,7 @@ export class UsersService {
       );
   }
 
-  updateUser(
-    id: string,
-    { name, description }: IUserUpdate
-  ): Observable<IUserDetails> {
+  updateUser(id: string, userData: IUserUpdate): Observable<IUserDetails> {
     const token = localStorage.getItem('user') || '';
 
     const httpOptions = {
@@ -88,7 +85,7 @@ export class UsersService {
     return this.http
       .patch<IHttpResponse<IUserDetails>>(
         `${environment.API_URL}/users/${id}`,
-        { name, description },
+        userData,
         httpOptions
       )
       .pipe(

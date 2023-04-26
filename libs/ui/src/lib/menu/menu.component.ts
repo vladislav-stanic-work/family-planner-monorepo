@@ -7,6 +7,7 @@ import { EROUTES } from '@family-planner/utils';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent {
+  @Input() note = '';
   @Input() links: { title: string; value: EROUTES }[] = [];
   @Output()
   clickHandler: EventEmitter<EROUTES> = new EventEmitter<EROUTES>();

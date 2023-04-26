@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
+import { GroupCreateComponent } from './group-create/group-create.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LoaderComponent } from './loader/loader.component';
 import { MenuComponent } from './menu/menu.component';
@@ -22,6 +24,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
     MenuComponent,
     LayoutComponent,
     UserEditComponent,
+    GroupCreateComponent,
   ],
   exports: [
     LoaderComponent,
@@ -29,6 +32,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
     MenuComponent,
     LayoutComponent,
     UserEditComponent,
+    GroupCreateComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +44,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
     MatInputModule,
     MatButtonModule,
     TextFieldModule,
+    MatDialogModule,
   ],
 })
 export class UiModule {}

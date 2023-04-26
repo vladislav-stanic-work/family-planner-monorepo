@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { EROUTES } from '@family-planner/utils';
+import { EROUTES, IUserDetails } from '@family-planner/utils';
 import { filter, map, tap } from 'rxjs';
 
 @Component({
@@ -9,8 +9,9 @@ import { filter, map, tap } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'family-planner';
+  menuNote = '';
   showMenu = false;
+  user: IUserDetails = {} as IUserDetails;
 
   menuLinks = [
     {
@@ -22,10 +23,15 @@ export class AppComponent implements OnInit {
       value: EROUTES.GROUPS,
     },
     {
+      title: 'My Profile',
+      value: `${EROUTES.USERS}/:id` as EROUTES.USERS,
+    },
+    {
       title: 'Logout',
       value: EROUTES.LOGOUT,
     },
   ];
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
@@ -39,6 +45,11 @@ export class AppComponent implements OnInit {
           ).includes(event.url.substring(1));
 
           this.showMenu = !onLoginPages;
+
+          if (!onLoginPages) {
+            this.user = JSON.parse(localStorage.getItem('user') || '');
+            this.menuNote = `Logged in as ${this.user?.name}`;
+          }
         })
       )
       .subscribe();
@@ -48,6 +59,11 @@ export class AppComponent implements OnInit {
     if (event === EROUTES.LOGOUT) {
       localStorage.removeItem('user');
       this.router.navigate(['/']);
+      return;
+    }
+
+    if (event === `${EROUTES.USERS}/:id`) {
+      this.router.navigate([`/${EROUTES.USERS}/${this.user._id}`]);
       return;
     }
 

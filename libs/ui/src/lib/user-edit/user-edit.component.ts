@@ -48,8 +48,6 @@ export class UserEditComponent implements OnInit {
         this.description === this.updateUserForm.value.description);
   }
 
-  // !updateUserForm.valid
-
   onSubmit(): void {
     const updateUser: { [key: string]: string } = {};
 

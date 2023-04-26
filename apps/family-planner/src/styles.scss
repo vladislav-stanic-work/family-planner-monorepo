@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+* {
+    box-sizing: border-box;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -22,4 +26,8 @@ button {
 a:hover {
     color: lightsteelblue;
     text-decoration: none;
+}
+
+mat-form-field {
+    width: 100%;
 }

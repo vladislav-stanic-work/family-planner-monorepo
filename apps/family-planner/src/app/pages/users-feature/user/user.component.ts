@@ -46,6 +46,8 @@ export class UserComponent implements OnInit {
       .pipe(
         tap((newData: IUserDetails) => {
           this.user$ = of(newData);
+
+          this.showEditUserForm = false;
         })
       )
       .subscribe();

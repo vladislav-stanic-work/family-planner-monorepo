@@ -45,19 +45,25 @@ export const appRoutes: Route[] = [
     path: EROUTES.USERS,
     canActivate: [canActivateChild],
     loadChildren: () =>
-      import('./pages/users-feature/users/users.module').then((m) => m.UsersModule),
+      import('./pages/users-feature/users/users.module').then(
+        (m) => m.UsersModule
+      ),
   },
   {
     path: `${EROUTES.USERS}/:id`,
     canActivate: [canActivateChild],
     loadChildren: () =>
-      import('./pages/users-feature/user/user.module').then((m) => m.UserModule),
+      import('./pages/users-feature/user/user.module').then(
+        (m) => m.UserModule
+      ),
   },
   {
     path: EROUTES.GROUPS,
     canActivate: [canActivateChild],
     loadChildren: () =>
-      import('./pages/groups/groups.module').then((m) => m.GroupsModule),
+      import('./pages/groups-feature/groups/groups.module').then(
+        (m) => m.GroupsModule
+      ),
   },
   {
     path: '',

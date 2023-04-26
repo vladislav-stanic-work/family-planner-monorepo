@@ -1,0 +1,13 @@
+.modal-wrapper {
+    min-width: 500px;
+    width: 100%;
+    padding: 20px;
+}
+
+.buttons {
+    text-align: right;
+
+    > * {
+        margin-left: 15px;
+    }
+}

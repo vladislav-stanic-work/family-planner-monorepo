@@ -1,0 +1,45 @@
+<fpl-layout>
+  <h1>Groups Page</h1>
+
+  <button (click)="openDialog()" mat-raised-button color="primary">
+    Create a Group
+  </button>
+
+  <br />
+  <br />
+
+  <table
+    *ngIf="dataSource.length; else noData"
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8"
+    aria-describedby="Users table"
+  >
+    <!-- Order Column -->
+    <ng-container matColumnDef="num">
+      <th mat-header-cell *matHeaderCellDef>Num.</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{i + 1}}.</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">
+        <a [routerLink]="'/' + EROUTES.USERS + '/' + element._id"
+          >{{element.name}}</a
+        >
+      </td>
+    </ng-container>
+
+    <!-- Members Column -->
+    <ng-container matColumnDef="members">
+      <th mat-header-cell *matHeaderCellDef>Members</th>
+      <td mat-cell *matCellDef="let element">{{element.members.length}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <ng-template #noData><div>{{dataStatus}}</div></ng-template>
+</fpl-layout>

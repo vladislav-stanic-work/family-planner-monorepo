@@ -1,3 +1,4 @@
+export * from './lib/group-create/group-create.component';
 export * from './lib/layout/layout.component';
 export * from './lib/loader/loader.component';
 export * from './lib/menu/menu.component';

@@ -5,8 +5,14 @@
     top: 0;
 }
 
-.navigation-items {
+.flex {
     display: flex;
+}
+
+.note {
+    font-size: 12px;
+    display: flex;
+    align-items: end;
 }
 
 .navigation-item {
