@@ -1,5 +1,5 @@
 <fpl-layout>
-  <h1>User Page</h1>
+  <h1 class="title">User Page</h1>
 
   <div *ngIf="user$ | async; let user">
     <div class="user-details">
@@ -11,7 +11,14 @@
       <div>{{user.email}}</div>
     </div>
     <div class="user-details">
-      <div>User is member of groups:</div>
+      <div *ngIf="user.groups.length; else noGroups">
+        User is member of groups:
+      </div>
+      <ng-template #noGroups
+        ><div class="error">
+          User is not a member of any group.
+        </div></ng-template
+      >
       <div class="groups-list">
         <ng-container *ngFor="let group of user.groups">
           <a [routerLink]="'/' + EROUTES.GROUPS + '/' + group.id"

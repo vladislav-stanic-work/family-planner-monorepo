@@ -91,18 +91,32 @@ const createGroup = asyncHandler(async (req, res) => {
 
 // @route GET /api/groups/id
 const getGroup = asyncHandler(async (req, res) => {
-  const { _id, name, adminId, members, description } = await Group.findById(
+  const { _id, name, adminId, memberIds, description } = await Group.findById(
     req.params.id
   );
 
-  const adminResult = await User.findById(adminId);
+  // Get Admin data
+  const { name: adminName } = await User.findById(adminId);
+  // Add Admin to members
+  const members = [
+    {
+      id: adminId,
+      name: adminName,
+    },
+  ];
+
+  // Add other members
+  for (const memberId of memberIds.filter((it) => it !== adminId)) {
+    const user = await User.findById(memberId).select('_id name');
+    members.push({ id: user._id, name: user.name });
+  }
 
   responseWrapper(res, 200, null, {
     id: _id,
     name,
     admin: {
       id: adminId,
-      name: adminResult.name,
+      name: adminName,
     },
     members,
     description,

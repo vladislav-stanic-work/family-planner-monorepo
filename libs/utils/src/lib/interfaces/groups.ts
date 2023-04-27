@@ -1,8 +1,11 @@
 export interface IGroup {
   id: string;
   name: string;
-  memberIds: string[];
   adminId: string;
+}
+
+export interface IGroupList extends IGroup {
+  memberIds: string[];
 }
 
 export interface IGroupDetails extends IGroup {
@@ -11,4 +14,8 @@ export interface IGroupDetails extends IGroup {
     name: string;
   };
   description: string;
+  members: {
+    id: string;
+    name: string;
+  }[];
 }

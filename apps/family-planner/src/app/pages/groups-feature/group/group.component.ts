@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EROUTES, IGroupDetails, IUserUpdate } from '@family-planner/utils';
-import { Observable, of, switchMap, take } from 'rxjs';
+import { EROUTES, IGroupDetails } from '@family-planner/utils';
+import { Observable, of, switchMap } from 'rxjs';
 
 import { GroupsService } from '../services/groups.service';
 
@@ -26,8 +26,6 @@ export class GroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.group$ = this.route.params.pipe(
-      // Add until
-      take(1),
       switchMap((params) => {
         this.userId = params['id'];
         const thisUser = localStorage.getItem('user') || '';
@@ -41,15 +39,15 @@ export class GroupComponent implements OnInit {
     this.showEditGroupForm = !this.showEditGroupForm;
   }
 
-  onUpdateUser(data: IUserUpdate): void {
-    // this.usersService
-    //   .updateUser(this.userId, data)
-    //   .pipe(
-    //     tap((newData: IUserDetails) => {
-    //       this.user$ = of(newData);
-    //       this.showEditUserForm = false;
-    //     })
-    //   )
-    //   .subscribe();
-  }
+  // onUpdateGroup(data: IUserUpdate): void {
+  // this.usersService
+  //   .updateUser(this.userId, data)
+  //   .pipe(
+  //     tap((newData: IUserDetails) => {
+  //       this.user$ = of(newData);
+  //       this.showEditUserForm = false;
+  //     })
+  //   )
+  //   .subscribe();
+  // }
 }

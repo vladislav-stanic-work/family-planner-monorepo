@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   EROUTES,
-  IGroup,
+  IGroupList,
   IUserDetails,
   IUserUpdate,
 } from '@family-planner/utils';
@@ -53,8 +53,8 @@ export class UserComponent implements OnInit {
 
   private getGroups(): void {
     this.allGroups$ = this.groupsService.getGroups().pipe(
-      map((groups: IGroup[]) =>
-        groups.map((group: IGroup) => ({
+      map((groups: IGroupList[]) =>
+        groups.map((group: IGroupList) => ({
           id: group.id,
           name: group.name,
           disabled: group.adminId === this.userId,

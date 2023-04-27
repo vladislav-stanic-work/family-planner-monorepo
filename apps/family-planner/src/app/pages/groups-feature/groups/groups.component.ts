@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupCreateComponent } from '@family-planner/ui';
-import { EROUTES, IGroup } from '@family-planner/utils';
+import { EROUTES, IGroupList } from '@family-planner/utils';
 import { finalize, take, tap } from 'rxjs';
 
 import { GroupsService } from '../services/groups.service';
@@ -12,13 +12,12 @@ import { GroupsService } from '../services/groups.service';
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
-  dataSource: IGroup[] = [];
+  dataSource: IGroupList[] = [];
   displayedColumns: string[] = ['num', 'name', 'members'];
   dataStatus = 'Data is loading...';
   thisId = '';
 
   EROUTES = EROUTES;
-  // EROLES = EROLES;
 
   constructor(
     private readonly groupsService: GroupsService,
@@ -60,7 +59,7 @@ export class GroupsComponent implements OnInit {
       .pipe(
         // Add until
         take(1),
-        tap((res: IGroup[]) => {
+        tap((res: IGroupList[]) => {
           this.dataSource = res;
           this.thisId = JSON.parse(localStorage.getItem('user') || '')?.id;
         }),

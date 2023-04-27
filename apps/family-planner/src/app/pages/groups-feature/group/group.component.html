@@ -1,5 +1,5 @@
 <fpl-layout>
-  <h1>Group Page</h1>
+  <h1 class="title">Group Page</h1>
 
   <div *ngIf="group$ | async; let group">
     <div class="group-details">
@@ -14,7 +14,13 @@
     </div>
     <div class="group-details">
       <div>Members:</div>
-      <div *ngFor="let member of group.memberIds"><div>{{member}}</div></div>
+      <div class="members-list">
+        <ng-container *ngFor="let member of group.members">
+          <a [routerLink]="'/' + EROUTES.USERS + '/' + member.id"
+            >{{member.name}}</a
+          >
+        </ng-container>
+      </div>
     </div>
     <div class="group-details" *ngIf="group.description">
       Description: {{group.description}}
@@ -34,11 +40,11 @@
     <br />
     <br />
 
-    <fpl-user-edit
+    <!-- <fpl-user-edit
       *ngIf="showEditGroupForm"
       [name]="group.name"
       [description]="group.description"
-      (updateUser)="onUpdateUser($event)"
-    ></fpl-user-edit>
+      (updateUser)="onUpdateGroup($event)"
+    ></fpl-user-edit> -->
   </div>
 </fpl-layout>

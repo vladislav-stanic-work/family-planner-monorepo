@@ -8,6 +8,7 @@ import {
   Error_Codes,
   IGroup,
   IGroupDetails,
+  IGroupList,
   IHttpResponse,
 } from '@family-planner/utils';
 import { Observable, throwError } from 'rxjs';
@@ -22,7 +23,7 @@ import { AppService } from '../../../services/app.service';
 export class GroupsService {
   constructor(private http: HttpClient, private appService: AppService) {}
 
-  getGroups(): Observable<IGroup[]> {
+  getGroups(): Observable<IGroupList[]> {
     const token = localStorage.getItem('user') || '';
 
     const httpOptions = {
@@ -33,12 +34,12 @@ export class GroupsService {
     };
 
     return this.http
-      .get<IHttpResponse<IGroup[]>>(
+      .get<IHttpResponse<IGroupList[]>>(
         `${environment.API_URL}/groups`,
         httpOptions
       )
       .pipe(
-        map(({ data }: IHttpResponse<IGroup[]>) => data),
+        map(({ data }: IHttpResponse<IGroupList[]>) => data),
         catchError(({ error }: HttpErrorResponse) => {
           this.appService.showSnackbar(
             `Error: ${Error_Codes[error.errorCode]}`

@@ -19,5 +19,7 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
 ## Test data
 
 * Login
-* email: vlad1@gmail.com
+* email: vlad@gmail.com
+* email: marija@gmail.com
+
 * password: 123456
