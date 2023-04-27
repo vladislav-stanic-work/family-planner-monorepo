@@ -1,0 +1,44 @@
+<fpl-layout>
+  <h1>Group Page</h1>
+
+  <div *ngIf="group$ | async; let group">
+    <div class="group-details">
+      <div>Name:</div>
+      <div>{{group.name}}</div>
+    </div>
+    <div class="group-details">
+      <div>Admin:</div>
+      <a [routerLink]="'/' + EROUTES.USERS + '/' + group.admin.id"
+        >{{group.admin.name}}</a
+      >
+    </div>
+    <div class="group-details">
+      <div>Members:</div>
+      <div *ngFor="let member of group.members"><div>{{member}}</div></div>
+    </div>
+    <div class="group-details" *ngIf="group.description">
+      Description: {{group.description}}
+    </div>
+
+    <br />
+
+    <button
+      *ngIf="editEnabled"
+      (click)="onToggleEditForm()"
+      mat-raised-button
+      color="primary"
+    >
+      Edit Details
+    </button>
+
+    <br />
+    <br />
+
+    <fpl-user-edit
+      *ngIf="showEditGroupForm"
+      [name]="group.name"
+      [description]="group.description"
+      (updateUser)="onUpdateUser($event)"
+    ></fpl-user-edit>
+  </div>
+</fpl-layout>

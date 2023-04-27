@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import {
   Error_Codes,
   IGroup,
+  IGroupCreate,
   IGroupDetails,
   IGroupDetailsResponse,
   IHttpResponse,
@@ -49,7 +50,7 @@ export class GroupsService {
       );
   }
 
-  createGroup(createDetails: IGroupDetails): Observable<IGroupDetailsResponse> {
+  createGroup(createDetails: IGroupCreate): Observable<IGroupDetailsResponse> {
     const token = localStorage.getItem('user') || '';
 
     const httpOptions = {
@@ -79,31 +80,31 @@ export class GroupsService {
       );
   }
 
-  // getUser(id: string): Observable<IUserDetails> {
-  //   const token = localStorage.getItem('user') || '';
+  getGroup(id: string): Observable<IGroupDetails> {
+    const token = localStorage.getItem('user') || '';
 
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${JSON.parse(token)?.token}`,
-  //     }),
-  //   };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(token)?.token}`,
+      }),
+    };
 
-  //   return this.http
-  //     .get<IHttpResponse<IUserDetails>>(
-  //       `${environment.API_URL}/users/${id}`,
-  //       httpOptions
-  //     )
-  //     .pipe(
-  //       map(({ data }: IHttpResponse<IUserDetails>) => data),
-  //       catchError(({ error }: HttpErrorResponse) => {
-  //         this.appService.showSnackbar(
-  //           `Error: ${Error_Codes[error.errorCode]}`
-  //         );
-  //         return throwError(() => error);
-  //       })
-  //     );
-  // }
+    return this.http
+      .get<IHttpResponse<IGroupDetails>>(
+        `${environment.API_URL}/groups/${id}`,
+        httpOptions
+      )
+      .pipe(
+        map(({ data }: IHttpResponse<IGroupDetails>) => data),
+        catchError(({ error }: HttpErrorResponse) => {
+          this.appService.showSnackbar(
+            `Error: ${Error_Codes[error.errorCode]}`
+          );
+          return throwError(() => error);
+        })
+      );
+  }
 
   // updateUser(
   //   id: string,

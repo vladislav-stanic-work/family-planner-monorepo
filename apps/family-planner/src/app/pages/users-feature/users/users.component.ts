@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
         tap((res: IUser[]) => {
           this.dataSource = res;
 
-          this.thisId = JSON.parse(localStorage.getItem('user') || '')?._id;
+          this.thisId = JSON.parse(localStorage.getItem('user') || '')?.id;
         })
       )
       .subscribe();

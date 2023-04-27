@@ -1,3 +1,16 @@
 .user-details {
     margin-bottom: 10px;
 }
+
+.groups-list {
+    display: flex;
+
+    a {
+        &:not(:last-child) {
+            &::after {
+                content: ',';
+                margin-right: 5px;
+            }
+        }
+    }
+}

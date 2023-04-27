@@ -66,6 +66,14 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: `${EROUTES.GROUPS}/:id`,
+    canActivate: [canActivateChild],
+    loadChildren: () =>
+      import('./pages/groups-feature/group/group.module').then(
+        (m) => m.GroupModule
+      ),
+  },
+  {
     path: '',
     redirectTo: EROUTES.LOGIN,
     pathMatch: 'full',

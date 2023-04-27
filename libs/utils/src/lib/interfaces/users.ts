@@ -4,12 +4,16 @@ export interface IUserBase {
 }
 
 export interface IUser extends IUserBase {
-  _id: string;
+  id: string;
   role?: string;
 }
 
 export interface IUserDetails extends IUser {
   description: string;
+  groups: {
+    id: string;
+    name: string;
+  }[];
 }
 
 export interface IUserUpdate {

@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 
 import { responseWrapper } from '../middleware/errorMiddleware';
 import Group from '../models/groupModel';
+import User from '../models/userModel';
 import { EEROR_CODES } from '../utils/index';
 
 // @route GET /api/groups
@@ -14,10 +15,9 @@ const getGroups = asyncHandler(async (req, res) => {
       200,
       null,
       result.map((it) => ({
-        _id: it._id,
+        id: it._id,
         name: it.name,
-        members: it.members,
-        // description: it.description,
+        members: it.memberIds,
       }))
     );
   } catch (error) {
@@ -28,9 +28,9 @@ const getGroups = asyncHandler(async (req, res) => {
 
 // @route POST /api/groups
 const createGroup = asyncHandler(async (req, res) => {
-  const { name, description, members } = req.body;
+  const { name, adminId, description, memberIds } = req.body;
 
-  if (!name || !members || !members.length) {
+  if (!name || !adminId || !memberIds?.length) {
     responseWrapper(res, 400, EEROR_CODES.USER_ADD_ALL_FIELDS);
     throw new Error('Please add all fields');
   }
@@ -39,7 +39,8 @@ const createGroup = asyncHandler(async (req, res) => {
   const newGroup = await Group.create({
     name,
     description,
-    members,
+    adminId,
+    memberIds,
   });
 
   if (newGroup) {
@@ -47,7 +48,8 @@ const createGroup = asyncHandler(async (req, res) => {
       id: newGroup._id,
       name: newGroup.name,
       description: newGroup.description,
-      members: newGroup.members,
+      admin: newGroup.admin,
+      memberIds: newGroup.memberIds,
     });
   } else {
     responseWrapper(res, 400, EEROR_CODES.USER_INVALID_DATA);
@@ -86,17 +88,27 @@ const createGroup = asyncHandler(async (req, res) => {
 // //   });
 // // });
 
-// // @route GET /api/users/id
-// const getUser = asyncHandler(async (req, res) => {
-//   const { _id, name, email, description } = await User.findById(req.params.id);
+// @route GET /api/groups/id
+const getGroup = asyncHandler(async (req, res) => {
+  const { _id, name, adminId, members, description } = await Group.findById(
+    req.params.id
+  );
 
-//   responseWrapper(res, 200, null, {
-//     id: _id,
-//     name,
-//     email,
-//     description,
-//   });
-// });
+  const result = await User.findById(adminId);
+  console.log('adminId === ', adminId);
+  console.log('result === ', result);
+
+  responseWrapper(res, 200, null, {
+    id: _id,
+    name,
+    admin: {
+      id: adminId,
+      name: result.name,
+    },
+    members,
+    description,
+  });
+});
 
 // // @route POST /api/users
 // const updateUser = asyncHandler(async (req, res) => {
@@ -124,4 +136,4 @@ const createGroup = asyncHandler(async (req, res) => {
 //   });
 // };
 
-export { createGroup, getGroups };
+export { createGroup, getGroup, getGroups };

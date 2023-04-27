@@ -9,7 +9,11 @@ const groupSchema = mongoose.Schema(
     description: {
       type: String,
     },
-    members: {
+    adminId: {
+      type: String,
+      required: [true, 'Group must have an admin'],
+    },
+    memberIds: {
       type: [String],
       required: [true, 'Group must have at least 1 member'],
     },

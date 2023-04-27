@@ -30,9 +30,10 @@ export class GroupsComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(GroupCreateComponent, {
-      data: { member: this.thisId },
-    });
+    const dialogRef = this.dialog.open(GroupCreateComponent);
+    //   {
+    //   data: { admin: this.thisId },
+    // }
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!Object.keys(result).length) {
@@ -40,7 +41,11 @@ export class GroupsComponent implements OnInit {
       }
 
       this.groupsService
-        .createGroup(result)
+        .createGroup({
+          ...result,
+          adminId: this.thisId,
+          memberIds: [this.thisId],
+        })
         .pipe(
           take(1),
           tap(() => this.getGroups())
@@ -57,7 +62,7 @@ export class GroupsComponent implements OnInit {
         take(1),
         tap((res: IGroup[]) => {
           this.dataSource = res;
-          this.thisId = JSON.parse(localStorage.getItem('user') || '')?._id;
+          this.thisId = JSON.parse(localStorage.getItem('user') || '')?.id;
         }),
         finalize(() => {
           if (!this.dataSource.length) {

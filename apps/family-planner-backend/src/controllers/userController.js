@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 
 import { responseWrapper } from '../middleware/errorMiddleware';
+import Group from '../models/groupModel';
 import User from '../models/userModel';
 import { EEROR_CODES } from './../utils/index';
 
@@ -16,7 +17,7 @@ const getUsers = asyncHandler(async (req, res) => {
       200,
       null,
       result.map((it) => ({
-        _id: it._id,
+        id: it._id,
         name: it.name,
         email: it.email,
         role: it.role,
@@ -78,7 +79,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   if (user && (await bcrypt.compare(password, user.password))) {
     responseWrapper(res, 201, null, {
-      _id: user.id,
+      id: user.id,
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
@@ -104,11 +105,19 @@ const loginUser = asyncHandler(async (req, res) => {
 const getUser = asyncHandler(async (req, res) => {
   const { _id, name, email, description } = await User.findById(req.params.id);
 
+  const groups = await Group.find({ memberIds: { $in: [req.user.id] } }).select(
+    '_id name'
+  );
+
   responseWrapper(res, 200, null, {
     id: _id,
     name,
     email,
     description,
+    groups: groups.map((it) => ({
+      id: it._id,
+      name: it.name,
+    })),
   });
 });
 
@@ -124,7 +133,7 @@ const updateUser = asyncHandler(async (req, res) => {
   );
 
   responseWrapper(res, 200, null, {
-    _id,
+    id: _id,
     name,
     email,
     description,

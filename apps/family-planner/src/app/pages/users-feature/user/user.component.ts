@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IUserDetails, IUserUpdate } from '@family-planner/utils';
+import { EROUTES, IUserDetails, IUserUpdate } from '@family-planner/utils';
 import { Observable, of, switchMap, take, tap } from 'rxjs';
 
 import { UsersService } from '../services/users.service';
@@ -17,6 +17,8 @@ export class UserComponent implements OnInit {
   editEnabled = false;
   showEditUserForm = false;
 
+  EROUTES = EROUTES;
+
   constructor(
     private readonly usersService: UsersService,
     private readonly route: ActivatedRoute
@@ -30,7 +32,7 @@ export class UserComponent implements OnInit {
         this.userId = params['id'];
         const thisUser = localStorage.getItem('user') || '';
 
-        this.editEnabled = this.userId === JSON.parse(thisUser)?._id;
+        this.editEnabled = this.userId === JSON.parse(thisUser)?.id;
         return this.usersService.getUser(this.userId);
       })
     );

@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
 
           if (!onLoginPages) {
             this.user = JSON.parse(localStorage.getItem('user') || '');
-            this.menuNote = `Logged in as ${this.user?.name}`;
+            this.menuNote = `Welcome ${this.user?.name}`;
           }
         })
       )
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
     }
 
     if (event === `${EROUTES.USERS}/:id`) {
-      this.router.navigate([`/${EROUTES.USERS}/${this.user._id}`]);
+      this.router.navigate([`/${EROUTES.USERS}/${this.user.id}`]);
       return;
     }
 

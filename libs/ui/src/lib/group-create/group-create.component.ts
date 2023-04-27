@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { debounceTime } from 'rxjs';
 
 @Component({
@@ -15,11 +15,7 @@ export class GroupCreateComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
-    public dialogRef: MatDialogRef<GroupCreateComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: {
-      member: string;
-    }
+    public dialogRef: MatDialogRef<GroupCreateComponent> // @Inject(MAT_DIALOG_DATA) // public data: { //   admin: string; // }
   ) {}
 
   ngOnInit(): void {
@@ -37,14 +33,5 @@ export class GroupCreateComponent implements OnInit {
 
   updateStatus(): void {
     this.createDisabled = !this.createGroupForm.valid;
-  }
-
-  sendFormValue() {
-    const result = {
-      ...this.createGroupForm.value,
-      members: [this.data.member],
-    };
-
-    return result;
   }
 }

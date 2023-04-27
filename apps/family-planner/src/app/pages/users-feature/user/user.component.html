@@ -10,6 +10,16 @@
       <div>Email:</div>
       <div>{{user.email}}</div>
     </div>
+    <div class="user-details">
+      <div>User is member of groups:</div>
+      <div class="groups-list">
+        <ng-container *ngFor="let group of user.groups">
+          <a [routerLink]="'/' + EROUTES.GROUPS + '/' + group.id"
+            >{{group.name}}</a
+          >
+        </ng-container>
+      </div>
+    </div>
     <div class="user-details" *ngIf="user.description">
       Description: {{user.description}}
     </div>
