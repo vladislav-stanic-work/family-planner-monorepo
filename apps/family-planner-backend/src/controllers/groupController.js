@@ -17,7 +17,8 @@ const getGroups = asyncHandler(async (req, res) => {
       result.map((it) => ({
         id: it._id,
         name: it.name,
-        members: it.memberIds,
+        adminId: it.adminId,
+        memberIds: it.memberIds,
       }))
     );
   } catch (error) {
@@ -94,16 +95,14 @@ const getGroup = asyncHandler(async (req, res) => {
     req.params.id
   );
 
-  const result = await User.findById(adminId);
-  console.log('adminId === ', adminId);
-  console.log('result === ', result);
+  const adminResult = await User.findById(adminId);
 
   responseWrapper(res, 200, null, {
     id: _id,
     name,
     admin: {
       id: adminId,
-      name: result.name,
+      name: adminResult.name,
     },
     members,
     description,

@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EROUTES, IUserDetails, IUserUpdate } from '@family-planner/utils';
-import { Observable, of, switchMap, take, tap } from 'rxjs';
+import {
+  EROUTES,
+  IGroup,
+  IUserDetails,
+  IUserUpdate,
+} from '@family-planner/utils';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
 
+import { GroupsService } from '../../groups-feature/services/groups.service';
 import { UsersService } from '../services/users.service';
 
 @Component({
@@ -12,6 +18,9 @@ import { UsersService } from '../services/users.service';
 })
 export class UserComponent implements OnInit {
   user$: Observable<IUserDetails> = of();
+  allGroups$: Observable<
+    { id: string; name: string; disabled: boolean; preselected: boolean }[]
+  > = of();
 
   userId = '';
   editEnabled = false;
@@ -20,21 +29,38 @@ export class UserComponent implements OnInit {
   EROUTES = EROUTES;
 
   constructor(
+    private readonly route: ActivatedRoute,
     private readonly usersService: UsersService,
-    private readonly route: ActivatedRoute
+    private readonly groupsService: GroupsService
   ) {}
 
   ngOnInit(): void {
+    this.getUsers();
+    this.getGroups();
+  }
+
+  private getUsers(): void {
     this.user$ = this.route.params.pipe(
       // Add until
-      take(1),
       switchMap((params) => {
         this.userId = params['id'];
         const thisUser = localStorage.getItem('user') || '';
-
         this.editEnabled = this.userId === JSON.parse(thisUser)?.id;
         return this.usersService.getUser(this.userId);
       })
+    );
+  }
+
+  private getGroups(): void {
+    this.allGroups$ = this.groupsService.getGroups().pipe(
+      map((groups: IGroup[]) =>
+        groups.map((group: IGroup) => ({
+          id: group.id,
+          name: group.name,
+          disabled: group.adminId === this.userId,
+          preselected: group.memberIds.includes(this.userId),
+        }))
+      )
     );
   }
 

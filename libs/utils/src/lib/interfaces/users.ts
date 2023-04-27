@@ -18,5 +18,7 @@ export interface IUserDetails extends IUser {
 
 export interface IUserUpdate {
   name?: string;
+  removedGroupIds?: string[];
+  addedGroupIds?: string;
   description?: string;
 }

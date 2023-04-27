@@ -7,9 +7,7 @@ import { Injectable } from '@angular/core';
 import {
   Error_Codes,
   IGroup,
-  IGroupCreate,
   IGroupDetails,
-  IGroupDetailsResponse,
   IHttpResponse,
 } from '@family-planner/utils';
 import { Observable, throwError } from 'rxjs';
@@ -50,7 +48,7 @@ export class GroupsService {
       );
   }
 
-  createGroup(createDetails: IGroupCreate): Observable<IGroupDetailsResponse> {
+  createGroup(createDetails: IGroup): Observable<IGroupDetails> {
     const token = localStorage.getItem('user') || '';
 
     const httpOptions = {
@@ -61,13 +59,13 @@ export class GroupsService {
     };
 
     return this.http
-      .post<IHttpResponse<IGroupDetailsResponse>>(
+      .post<IHttpResponse<IGroupDetails>>(
         `${environment.API_URL}/groups`,
         createDetails,
         httpOptions
       )
       .pipe(
-        map(({ data }: IHttpResponse<IGroupDetailsResponse>) => {
+        map(({ data }: IHttpResponse<IGroupDetails>) => {
           this.appService.showSnackbar('Group was created successfully.');
           return data;
         }),

@@ -1,11 +1,8 @@
 export interface IGroup {
+  id: string;
   name: string;
-  description: string;
-}
-
-export interface IGroupCreate extends IGroup {
-  adminId: string;
   memberIds: string[];
+  adminId: string;
 }
 
 export interface IGroupDetails extends IGroup {
@@ -13,9 +10,5 @@ export interface IGroupDetails extends IGroup {
     id: string;
     name: string;
   };
-  members: string[];
-}
-
-export interface IGroupDetailsResponse extends IGroupCreate {
-  id: string;
+  description: string;
 }

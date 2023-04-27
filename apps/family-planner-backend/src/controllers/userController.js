@@ -103,9 +103,57 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // @route GET /api/users/id
 const getUser = asyncHandler(async (req, res) => {
-  const { _id, name, email, description } = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id);
+  returnUser(res, user);
+});
 
-  const groups = await Group.find({ memberIds: { $in: [req.user.id] } }).select(
+// @route PATCH /api/users
+const updateUser = asyncHandler(async (req, res) => {
+  const userObjUpdate = { ...req.body };
+  delete userObjUpdate.removedGroupIds;
+  delete userObjUpdate.addedGroupIds;
+
+  // Update user
+  const user = await User.findByIdAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    userObjUpdate,
+    { new: true }
+  );
+
+  // Add
+  if (req.body.addedGroupIds?.length) {
+    for (const added of req.body.addedGroupIds) {
+      await Group.findByIdAndUpdate(
+        added,
+        { $push: { memberIds: req.params.id } },
+        { new: true, upsert: true }
+      );
+    }
+  }
+
+  // Remove
+  if (req.body.removedGroupIds?.length) {
+    for (const removed of req.body.removedGroupIds) {
+      await Group.findByIdAndUpdate(removed, {
+        $pullAll: { memberIds: [req.params.id] },
+      });
+    }
+  }
+
+  returnUser(res, user);
+});
+
+// Generate JWT
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  });
+};
+
+const returnUser = async (res, { email, description, _id, name }) => {
+  const groups = await Group.find({ memberIds: { $in: [_id] } }).select(
     '_id name'
   );
 
@@ -118,32 +166,6 @@ const getUser = asyncHandler(async (req, res) => {
       id: it._id,
       name: it.name,
     })),
-  });
-});
-
-// @route POST /api/users
-const updateUser = asyncHandler(async (req, res) => {
-  // Update user
-  const { _id, name, email, description } = await User.findByIdAndUpdate(
-    {
-      _id: req.params.id,
-    },
-    req.body,
-    { new: true }
-  );
-
-  responseWrapper(res, 200, null, {
-    id: _id,
-    name,
-    email,
-    description,
-  });
-});
-
-// Generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
   });
 };
 

@@ -14,7 +14,7 @@
     </div>
     <div class="group-details">
       <div>Members:</div>
-      <div *ngFor="let member of group.members"><div>{{member}}</div></div>
+      <div *ngFor="let member of group.memberIds"><div>{{member}}</div></div>
     </div>
     <div class="group-details" *ngIf="group.description">
       Description: {{group.description}}

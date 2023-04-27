@@ -90,8 +90,6 @@ export class UsersService {
       )
       .pipe(
         map(({ data }: IHttpResponse<IUserDetails>) => {
-          this.appService.showSnackbar('Update successful!');
-
           const thisUser: IUserDetails = JSON.parse(
             localStorage.getItem('user') || ''
           );

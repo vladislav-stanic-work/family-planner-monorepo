@@ -39,8 +39,9 @@
     <br />
 
     <fpl-user-edit
-      *ngIf="showEditUserForm"
+      *ngIf="showEditUserForm && (allGroups$ | async); let allGroups"
       [name]="user.name"
+      [allGroups]="allGroups"
       [description]="user.description"
       (updateUser)="onUpdateUser($event)"
     ></fpl-user-edit>
